@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="app_name">CarLocalizer</string>
+    <string name="title_activity_main">CarLocalizer</string>
+    <string name="historico">Histórico</string>
+    <string name="title_activity_historico">Histórico</string>
+    <string name="hello_world">Hello world!</string>
+    <string name="action_settings">Settings</string>
+
+</resources>
