@@ -10,6 +10,8 @@ import android.widget.TextView;
 
 import java.util.List;
 
+import leo.com.br.carlocalizer.dominio.Localizacao;
+
 public class HistoricoAdapter extends BaseAdapter {
 
     private List<Localizacao> listaLocalizacao;
@@ -40,17 +42,24 @@ public class HistoricoAdapter extends BaseAdapter {
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
 
+        final Localizacao localizacao = listaLocalizacao.get(position);
+
         View row;
 
         row = inflater.inflate(R.layout.custom_list_view, parent, false);
         TextView title, detail;
-        ImageView i1;
+
         title = (TextView) row.findViewById(R.id.title);
         detail = (TextView) row.findViewById(R.id.detail);
-        i1 = (ImageView) row.findViewById(R.id.img);
 
-        title.setText(listaLocalizacao.get(position).getDateFormated());
-        detail.setText(listaLocalizacao.get(position).getLatitudeLongitude());
+        String texto = localizacao.getDateFormated();
+
+        if (localizacao.isAtual()) {
+            texto += " (Atual)";
+        }
+
+        title.setText(texto);
+        detail.setText(localizacao.getLatitudeLongitude());
 
         return (row);
     }

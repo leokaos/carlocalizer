@@ -11,20 +11,27 @@ import android.provider.Settings;
 import android.support.v4.app.FragmentActivity;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.Button;
 
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.MapsInitializer;
 import com.google.android.gms.maps.SupportMapFragment;
+import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.CameraPosition;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
+
+import leo.com.br.carlocalizer.database.DataBaseHelper;
+import leo.com.br.carlocalizer.dominio.Localizacao;
 
 public class Main extends FragmentActivity {
 
     private GoogleMap mMap;
     private LocationManager mLocationManager;
     private DataBaseHelper dataBaseHelper;
+    private Location atualLocalizacao;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -34,11 +41,43 @@ public class Main extends FragmentActivity {
 
         setContentView(R.layout.activity_main);
 
+        final Button button = (Button) findViewById(R.id.botao_marcar);
+
+        button.setOnClickListener(new View.OnClickListener() {
+
+            @Override
+            public void onClick(View v) {
+                gravarPosicaoCarro(atualLocalizacao);
+            }
+        });
+
         setUpMapIfNeeded();
 
         verifyGpsOn();
 
         initDataBase();
+
+        markerActualMarker();
+    }
+
+    private void gravarPosicaoCarro(Location atualLocalizacao) {
+        dataBaseHelper.addLocalizacao(new Localizacao(atualLocalizacao));
+
+        markerActualMarker();
+    }
+
+    private void markerActualMarker() {
+        this.mMap.clear();
+        
+        Localizacao localizacao = dataBaseHelper.getLocalizacaoAtual();
+
+        if (localizacao != null) {
+            final LatLng position = new LatLng(localizacao.getLatitude(), localizacao.getLongitude());
+
+            this.mMap.addMarker(new MarkerOptions().position(position).title("Posição Atual").icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_AZURE)));
+
+            this.mMap.animateCamera(CameraUpdateFactory.newCameraPosition(CameraPosition.fromLatLngZoom(position, 17.0f)));
+        }
     }
 
     private void initDataBase() {
@@ -87,16 +126,17 @@ public class Main extends FragmentActivity {
 
     private void setCurrentPosition(Location location) {
 
-        mMap.clear();
+        this.mMap.clear();
+
+        markerActualMarker();
 
         final LatLng position = new LatLng(location.getLatitude(), location.getLongitude());
 
-        mMap.addMarker(new MarkerOptions().position(position).title("Posição Atual"));
+        this.mMap.addMarker(new MarkerOptions().position(position).title("Posição Pedestre"));
 
-        mMap.animateCamera(CameraUpdateFactory.newCameraPosition(CameraPosition.fromLatLngZoom(position, 17.0f)));
+        this.mMap.animateCamera(CameraUpdateFactory.newCameraPosition(CameraPosition.fromLatLngZoom(position, 17.0f)));
 
-        dataBaseHelper.addLocalizacao(new Localizacao(location));
-
+        this.atualLocalizacao = location;
     }
 
     private void showMessage(String msg) {

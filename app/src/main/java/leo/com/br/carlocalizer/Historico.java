@@ -2,17 +2,12 @@ package leo.com.br.carlocalizer;
 
 import android.app.Activity;
 import android.os.Bundle;
-import android.view.Menu;
-import android.view.View;
-import android.view.ViewGroup;
-import android.widget.ArrayAdapter;
-import android.widget.BaseAdapter;
-import android.widget.ListAdapter;
 import android.widget.ListView;
-import android.widget.TextView;
 
-import java.util.ArrayList;
 import java.util.List;
+
+import leo.com.br.carlocalizer.database.DataBaseHelper;
+import leo.com.br.carlocalizer.dominio.Localizacao;
 
 public class Historico extends Activity {
 

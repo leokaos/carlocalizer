@@ -4,4 +4,13 @@
     android:layout_height="match_parent"
     android:id="@+id/map"
     tools:context=".Main"
-    android:name="com.google.android.gms.maps.SupportMapFragment" />
+    android:name="com.google.android.gms.maps.SupportMapFragment"
+    tools:layout="@layout/abc_simple_decor">
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/botao_marcar"
+        android:id="@+id/botao_marcar" />
+
+</fragment>
