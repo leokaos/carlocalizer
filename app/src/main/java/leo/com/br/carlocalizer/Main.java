@@ -68,13 +68,13 @@ public class Main extends FragmentActivity {
 
     private void markerActualMarker() {
         this.mMap.clear();
-        
+
         Localizacao localizacao = dataBaseHelper.getLocalizacaoAtual();
 
         if (localizacao != null) {
             final LatLng position = new LatLng(localizacao.getLatitude(), localizacao.getLongitude());
 
-            this.mMap.addMarker(new MarkerOptions().position(position).title("Posição Atual").icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_AZURE)));
+            this.mMap.addMarker(new MarkerOptions().position(position).title("Posição Atual").icon(BitmapDescriptorFactory.fromResource(R.drawable.icon_car)));
 
             this.mMap.animateCamera(CameraUpdateFactory.newCameraPosition(CameraPosition.fromLatLngZoom(position, 17.0f)));
         }
@@ -132,7 +132,7 @@ public class Main extends FragmentActivity {
 
         final LatLng position = new LatLng(location.getLatitude(), location.getLongitude());
 
-        this.mMap.addMarker(new MarkerOptions().position(position).title("Posição Pedestre"));
+        this.mMap.addMarker(new MarkerOptions().position(position).title("Posição Pedestre").icon(BitmapDescriptorFactory.fromResource(R.drawable.man_icon)));
 
         this.mMap.animateCamera(CameraUpdateFactory.newCameraPosition(CameraPosition.fromLatLngZoom(position, 17.0f)));
 
